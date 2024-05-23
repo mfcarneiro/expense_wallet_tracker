@@ -25,9 +25,9 @@ class ExpensesList extends StatelessWidget {
         background: Container(
           alignment: Alignment.centerRight,
           padding: const EdgeInsets.all(12.0),
-          decoration: const BoxDecoration(
-            color: Colors.red,
-            borderRadius: BorderRadius.only(
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.error,
+            borderRadius: const BorderRadius.only(
               topRight: Radius.circular(12.0),
               bottomRight: Radius.circular(12.0),
             ),

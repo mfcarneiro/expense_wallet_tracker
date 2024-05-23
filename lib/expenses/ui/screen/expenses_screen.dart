@@ -13,12 +13,15 @@ class ExpensesScreen extends StatefulWidget {
 }
 
 class _ExpensesScreenState extends State<ExpensesScreen> {
-  Widget emptyExpenseRecord = const Center(
-    child: Text('You are rocking! No expenses here!'),
-  );
-
   @override
   Widget build(BuildContext context) {
+    Widget emptyExpenseRecord = Center(
+      child: Text(
+        'You are rocking! No expenses here!',
+        style: Theme.of(context).textTheme.titleMedium,
+      ),
+    );
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,

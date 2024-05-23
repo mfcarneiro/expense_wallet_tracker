@@ -5,14 +5,21 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import 'theme.dart';
+import 'theme_config.dart';
+
 void main() {
   setup();
   runApp(
     ChangeNotifierProvider<ExpenseModel>(
       create: (context) => ExpenseModel(),
       builder: (context, child) {
+        var brightness = View.of(context).platformDispatcher.platformBrightness;
+        TextTheme textTheme = createTextTheme(context, "Tajawal", "Tajawal");
+        MaterialTheme theme = MaterialTheme(textTheme);
         return MaterialApp(
-          theme: ThemeData(primarySwatch: Colors.green),
+          theme: brightness == Brightness.light ? theme.light() : theme.dark(),
+          themeMode: ThemeMode.system,
           home: const ExpensesScreen(),
         );
       },

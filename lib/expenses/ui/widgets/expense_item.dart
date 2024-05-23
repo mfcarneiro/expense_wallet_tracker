@@ -22,7 +22,7 @@ class ExpenseItem extends StatelessWidget {
             const SizedBox(height: 20),
             Row(
               children: <Widget>[
-                Text('R\$ ${expense.amount}'),
+                Text('R\$ ${expense.amount.toStringAsFixed(2)}'),
                 const Spacer(),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
