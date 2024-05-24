@@ -1,8 +1,7 @@
 name: expenses_wallet_tracker
-description: "A new Flutter project."
+description: "Gonna track'em all!"
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-
-version: 0.0.1+1
+version: 0.1.1
 
 environment:
   sdk: '>=3.3.4 <4.0.0'

@@ -15,8 +15,8 @@ class _NewExpenseState extends State<NewExpense> {
   final _formKey = GlobalKey<FormState>();
   final _expenseTitleController = TextEditingController();
   final _expenseAmountController = TextEditingController();
-  final _selectedDateController = TextEditingController();
-  var _selectedCategory = CategoryItem.groceries;
+  final _expenseSelectedDateController = TextEditingController();
+  var _expenseSelectedCategory = CategoryItem.groceries;
   DateTime _selectedDate = DateTime.now();
 
   @override
@@ -64,7 +64,7 @@ class _NewExpenseState extends State<NewExpense> {
             ),
             const SizedBox(height: 16),
             TextFormField(
-              controller: _selectedDateController,
+              controller: _expenseSelectedDateController,
               onTap: _presentDateTimePicker,
               readOnly: true,
               keyboardType: TextInputType.none,
@@ -76,7 +76,7 @@ class _NewExpenseState extends State<NewExpense> {
             ),
             const SizedBox(height: 16),
             DropdownButtonFormField(
-              value: _selectedCategory,
+              value: _expenseSelectedCategory,
               items: CategoryItem.values.map(
                 (category) {
                   return DropdownMenuItem(
@@ -92,7 +92,7 @@ class _NewExpenseState extends State<NewExpense> {
                   return;
                 }
                 setState(() {
-                  _selectedCategory = value;
+                  _expenseSelectedCategory = value;
                 });
               },
               decoration: const InputDecoration(
@@ -120,7 +120,15 @@ class _NewExpenseState extends State<NewExpense> {
   @override
   void initState() {
     super.initState();
-    _selectedDateController.text = _currentDateFormat(_selectedDate);
+    _expenseSelectedDateController.text = _currentDateFormat(_selectedDate);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _expenseTitleController.dispose();
+    _expenseAmountController.dispose();
+    _expenseSelectedDateController.dispose();
   }
 
   String _currentDateFormat(DateTime selectedDate) {
@@ -147,7 +155,7 @@ class _NewExpenseState extends State<NewExpense> {
         title: _expenseTitleController.text,
         amount: enteredAmount,
         date: _selectedDate,
-        category: _selectedCategory,
+        category: _expenseSelectedCategory,
       );
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -175,7 +183,7 @@ class _NewExpenseState extends State<NewExpense> {
     setState(() {
       if (pickedDate != null) {
         _selectedDate = pickedDate;
-        _selectedDateController.text = _currentDateFormat(pickedDate);
+        _expenseSelectedDateController.text = _currentDateFormat(pickedDate);
       }
     });
   }
