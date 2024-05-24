@@ -13,11 +13,11 @@ class NewExpense extends StatefulWidget {
 
 class _NewExpenseState extends State<NewExpense> {
   final _formKey = GlobalKey<FormState>();
-
-  var _expenseTitle = '';
-  var _expenseAmount = 0.0;
-  var _selectedDate = DateTime.now();
+  final _expenseTitleController = TextEditingController();
+  final _expenseAmountController = TextEditingController();
+  final _selectedDateController = TextEditingController();
   var _selectedCategory = CategoryItem.groceries;
+  DateTime _selectedDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -28,18 +28,12 @@ class _NewExpenseState extends State<NewExpense> {
         child: Column(
           children: <Widget>[
             TextFormField(
-              initialValue: _expenseTitle,
+              controller: _expenseTitleController,
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
                   return 'Title cannot be empty';
                 }
                 return null;
-              },
-              onChanged: (value) {
-                _expenseTitle = value;
-              },
-              onSaved: (value) {
-                _expenseTitle = value!;
               },
               textInputAction: TextInputAction.next,
               maxLength: 50,
@@ -51,18 +45,13 @@ class _NewExpenseState extends State<NewExpense> {
             ),
             const SizedBox(height: 16),
             TextFormField(
+              controller: _expenseAmountController,
               textInputAction: TextInputAction.next,
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
                   return 'Amount cannot be empty';
                 }
                 return null;
-              },
-              onChanged: (value) {
-                _expenseAmount = double.parse(value);
-              },
-              onSaved: (value) {
-                _expenseAmount = double.parse(value!);
               },
               keyboardType:
                   const TextInputType.numberWithOptions(decimal: true),
@@ -75,7 +64,7 @@ class _NewExpenseState extends State<NewExpense> {
             ),
             const SizedBox(height: 16),
             TextFormField(
-              initialValue: _currentDateFormat(_selectedDate),
+              controller: _selectedDateController,
               onTap: _presentDateTimePicker,
               readOnly: true,
               keyboardType: TextInputType.none,
@@ -128,6 +117,12 @@ class _NewExpenseState extends State<NewExpense> {
     );
   }
 
+  @override
+  void initState() {
+    super.initState();
+    _selectedDateController.text = _currentDateFormat(_selectedDate);
+  }
+
   String _currentDateFormat(DateTime selectedDate) {
     return DateFormat.yMMMMd().format(selectedDate).toString();
   }
@@ -137,22 +132,27 @@ class _NewExpenseState extends State<NewExpense> {
   }
 
   void _onSubmitNewExpense() {
-    if (_formKey.currentState!.validate()) {
+    final enteredAmount = double.tryParse(_expenseAmountController.text);
+
+    if (_formKey.currentState!.validate() &&
+        enteredAmount != null &&
+        !enteredAmount.isNegative &&
+        enteredAmount >= 0) {
       _formKey.currentState!.save();
 
       Provider.of<ExpenseModel>(
         context,
         listen: false,
       ).addNewExpense(
-        title: _expenseTitle,
-        amount: _expenseAmount,
+        title: _expenseTitleController.text,
+        amount: enteredAmount,
         date: _selectedDate,
         category: _selectedCategory,
       );
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('New $_expenseTitle was added!'),
+          content: Text('New ${_expenseTitleController.text} was added!'),
         ),
       );
 
@@ -175,6 +175,7 @@ class _NewExpenseState extends State<NewExpense> {
     setState(() {
       if (pickedDate != null) {
         _selectedDate = pickedDate;
+        _selectedDateController.text = _currentDateFormat(pickedDate);
       }
     });
   }
