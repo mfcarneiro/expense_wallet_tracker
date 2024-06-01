@@ -1,7 +1,7 @@
 name: expenses_wallet_tracker
 description: "Gonna track'em all!"
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 0.1.3
+version: 0.1.4
 
 environment:
   sdk: '>=3.3.4 <4.0.0'

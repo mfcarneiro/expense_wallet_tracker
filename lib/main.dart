@@ -1,12 +1,11 @@
+import 'package:expenses_wallet_tracker/core/theme/theme.dart';
+import 'package:expenses_wallet_tracker/core/theme/theme_config.dart';
 import 'package:expenses_wallet_tracker/expenses/application/model/expense_model.dart';
 import 'package:expenses_wallet_tracker/expenses/ui/screen/expenses_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
-import 'theme.dart';
-import 'theme_config.dart';
 
 void main() {
   setup();
