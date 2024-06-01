@@ -47,23 +47,25 @@ class CategoryList extends StatelessWidget {
         : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                scrollDirection: Axis.horizontal,
-                child: Wrap(
-                  spacing: 8.0,
-                  children: List<Widget>.generate(
-                    provider.categoryList.length,
-                    (index) {
-                      return CategoryListItem(
-                        category: provider.categoryList.toList()[index],
-                        index: index,
-                      );
-                    },
+              Visibility(
+                visible: provider.isCategoryFilterVisible,
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  scrollDirection: Axis.horizontal,
+                  child: Wrap(
+                    spacing: 8.0,
+                    children: List<Widget>.generate(
+                      provider.categoryList.length,
+                      (index) {
+                        return CategoryListItem(
+                          category: provider.categoryList.toList()[index],
+                          index: index,
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),
-              const SizedBox(height: 12.0),
               Expanded(
                 flex: 2,
                 child: ExpensesList(

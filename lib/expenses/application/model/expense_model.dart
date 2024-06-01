@@ -10,6 +10,8 @@ class ExpenseModel with ChangeNotifier implements ReassembleHandler {
 
   List<Expense> _expenseList = [];
   int? isCategorySelected;
+  bool isCategoryFilterVisible = true;
+  int categoryFilterCounter = 0;
 
   Set<CategoryItem> get categoryList => _categoryList;
   List<Expense> get expenseList => _expenseList;
@@ -30,6 +32,7 @@ class ExpenseModel with ChangeNotifier implements ReassembleHandler {
     _mainExpenseList.add(newExpense);
     _expenseList.add(newExpense);
     _categoryList.add(newExpense.categoryItem);
+    categoryFilterCounter++;
 
     notifyListeners();
   }
@@ -44,14 +47,23 @@ class ExpenseModel with ChangeNotifier implements ReassembleHandler {
     _expenseList.remove(expense);
     _categoryList.remove(expense.categoryItem);
 
+    categoryFilterCounter--;
+
     notifyListeners();
 
     return expenseIndex;
   }
 
+  void toggleCategoryFilterVisible() {
+    isCategoryFilterVisible = !isCategoryFilterVisible;
+
+    notifyListeners();
+  }
+
   void toggleFilterByCategory(CategoryItem categoryItem) {
     if (isCategorySelected == null) {
       _expenseList = _mainExpenseList.toList();
+
       notifyListeners();
 
       return;
@@ -68,6 +80,7 @@ class ExpenseModel with ChangeNotifier implements ReassembleHandler {
     _mainExpenseList.insert(index, expense);
     _expenseList.insert(index, expense);
     _categoryList.add(expense.categoryItem);
+    categoryFilterCounter++;
 
     notifyListeners();
   }

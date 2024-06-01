@@ -1,22 +1,41 @@
+import 'package:expenses_wallet_tracker/expenses/application/model/expense_model.dart';
 import 'package:expenses_wallet_tracker/expenses/ui/widgets/category_list.dart';
 import 'package:expenses_wallet_tracker/expenses/ui/widgets/new_expense.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ExpensesScreen extends StatelessWidget {
   const ExpensesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    bool isCategoryFilterVisible =
+        Provider.of<ExpenseModel>(context).isCategoryFilterVisible;
+    int categoryFilterCounter =
+        Provider.of<ExpenseModel>(context).categoryFilterCounter;
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: const Text('Expenses'),
         actions: [
           IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.filter_list_outlined,
+            onPressed: () {
+              context.read<ExpenseModel>().toggleCategoryFilterVisible();
+            },
+            selectedIcon: Badge.count(
+              count: categoryFilterCounter,
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              child: Icon(
+                Icons.filter_list,
+                fill: 1.0,
+                color: Color(
+                  Theme.of(context).colorScheme.primary.value,
+                ),
+              ),
             ),
+            isSelected: isCategoryFilterVisible,
+            icon: const Icon(Icons.filter_list_outlined),
           ),
           IconButton(
             onPressed: () {},
