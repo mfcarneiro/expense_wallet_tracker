@@ -27,9 +27,13 @@ class ExpenseItem extends StatelessWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
-                    Icon(categoryIcons[expense.categoryItem]),
+                    Icon(
+                      categoryIcons[expense.categoryItem],
+                    ),
                     const SizedBox(width: 8),
-                    Text(formatDate(expense.date)),
+                    Text(
+                      _formatDate(expense.date),
+                    ),
                   ],
                 )
               ],
@@ -40,7 +44,7 @@ class ExpenseItem extends StatelessWidget {
     );
   }
 
-  String formatDate(DateTime currentDate) {
+  String _formatDate(DateTime currentDate) {
     return DateFormat.yMMMd().format(currentDate);
   }
 }

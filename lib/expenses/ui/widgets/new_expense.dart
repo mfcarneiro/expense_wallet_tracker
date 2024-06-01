@@ -118,17 +118,17 @@ class _NewExpenseState extends State<NewExpense> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    _expenseSelectedDateController.text = _currentDateFormat(_selectedDate);
-  }
-
-  @override
   void dispose() {
     super.dispose();
     _expenseTitleController.dispose();
     _expenseAmountController.dispose();
     _expenseSelectedDateController.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _expenseSelectedDateController.text = _currentDateFormat(_selectedDate);
   }
 
   String _currentDateFormat(DateTime selectedDate) {

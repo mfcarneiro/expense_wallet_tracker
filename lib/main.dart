@@ -20,6 +20,7 @@ void main() {
         return MaterialApp(
           theme: brightness == Brightness.light ? theme.light() : theme.dark(),
           themeMode: ThemeMode.system,
+          darkTheme: theme.dark(),
           home: const ExpensesScreen(),
         );
       },

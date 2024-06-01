@@ -1,32 +1,23 @@
-import 'package:expenses_wallet_tracker/expenses/application/model/expense_model.dart';
-import 'package:expenses_wallet_tracker/expenses/domain/expense.dart';
-import 'package:expenses_wallet_tracker/expenses/ui/widgets/expenses_list.dart';
+import 'package:expenses_wallet_tracker/expenses/ui/widgets/category_list.dart';
 import 'package:expenses_wallet_tracker/expenses/ui/widgets/new_expense.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-class ExpensesScreen extends StatefulWidget {
+class ExpensesScreen extends StatelessWidget {
   const ExpensesScreen({super.key});
 
   @override
-  State<ExpensesScreen> createState() => _ExpensesScreenState();
-}
-
-class _ExpensesScreenState extends State<ExpensesScreen> {
-  @override
   Widget build(BuildContext context) {
-    Widget emptyExpenseRecord = Center(
-      child: Text(
-        'You are rocking! No expenses here!',
-        style: Theme.of(context).textTheme.titleMedium,
-      ),
-    );
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: const Text('Expenses'),
         actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.filter_list_outlined,
+            ),
+          ),
           IconButton(
             onPressed: () {},
             icon: const Icon(
@@ -36,56 +27,17 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
           )
         ],
       ),
-      body: Column(
-        children: <Widget>[
-          const Text('Chart...'),
-          Expanded(
-            child: Consumer<ExpenseModel>(
-              builder: (context, provider, child) {
-                return provider.expenseList.isEmpty
-                    ? emptyExpenseRecord
-                    : ExpensesList(
-                        expenseList: provider.expenseList,
-                        onRemoveExpense: _onRemoveExpense,
-                      );
-              },
-            ),
-          ),
-        ],
-      ),
+      body: const CategoryList(),
       floatingActionButton: FloatingActionButton.extended(
-        label: const Text('New expense'),
-        icon: const Icon(Icons.add),
-        onPressed: _openAddNewExpenseOverlay,
-      ),
-    );
-  }
-
-  void _onRemoveExpense(Expense expense) {
-    final expenseIndex =
-        context.read<ExpenseModel>().expenseList.indexOf(expense);
-
-    context.read<ExpenseModel>().removeExpense(expense);
-
-    ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          '${expense.title} was removed',
-        ),
-        action: SnackBarAction(
-          label: 'Undo',
+          label: const Text('New expense'),
+          icon: const Icon(Icons.add),
           onPressed: () {
-            context
-                .read<ExpenseModel>()
-                .undoRemoveExpense(expense, expenseIndex);
-          },
-        ),
-      ),
+            _openAddNewExpenseOverlay(context);
+          }),
     );
   }
 
-  void _openAddNewExpenseOverlay() {
+  void _openAddNewExpenseOverlay(BuildContext context) {
     showModalBottomSheet(
       builder: (builderContext) => const Scaffold(
         body: NewExpense(),

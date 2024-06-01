@@ -1,24 +1,27 @@
+import 'package:expenses_wallet_tracker/expenses/application/model/expense_model.dart';
 import 'package:expenses_wallet_tracker/expenses/domain/expense.dart';
 import 'package:expenses_wallet_tracker/expenses/ui/widgets/expense_item.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ExpensesList extends StatelessWidget {
-  final List<Expense> expenseList;
   final void Function(Expense expense) onRemoveExpense;
 
   const ExpensesList({
     super.key,
-    required this.expenseList,
     required this.onRemoveExpense,
   });
 
   @override
   Widget build(BuildContext context) {
+    final expenseList = Provider.of<ExpenseModel>(context).expenseList;
+
     return ListView.builder(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+      padding: const EdgeInsets.all(12.0),
+      shrinkWrap: true,
       itemCount: expenseList.length,
       itemBuilder: (context, index) => Dismissible(
-        key: ValueKey(expenseList[index]),
+        key: UniqueKey(),
         onDismissed: (direction) {
           onRemoveExpense(expenseList[index]);
         },
