@@ -48,11 +48,12 @@ class ExpensesScreen extends StatelessWidget {
       ),
       body: const CategoryList(),
       floatingActionButton: FloatingActionButton.extended(
-          label: const Text('New expense'),
-          icon: const Icon(Icons.add),
-          onPressed: () {
-            _openAddNewExpenseOverlay(context);
-          }),
+        label: const Text('New expense'),
+        icon: const Icon(Icons.add),
+        onPressed: () {
+          _openAddNewExpenseOverlay(context);
+        },
+      ),
     );
   }
 

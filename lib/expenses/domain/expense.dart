@@ -1,6 +1,8 @@
 import 'package:expenses_wallet_tracker/expenses/domain/category.dart';
+import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
+@immutable
 class Expense {
   final String id;
   final String title;

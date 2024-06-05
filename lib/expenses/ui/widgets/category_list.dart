@@ -12,7 +12,7 @@ class CategoryList extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<ExpenseModel>(context);
 
-    void onRemoveExpense(Expense expense) {
+    void onRemoveExpense(Expense expense, int index) {
       final expenseIndex = context.read<ExpenseModel>().removeExpense(expense);
 
       ScaffoldMessenger.of(context).clearSnackBars();

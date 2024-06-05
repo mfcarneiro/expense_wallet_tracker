@@ -16,8 +16,8 @@ class CategoryListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var isCategorySelected =
-        Provider.of<ExpenseModel>(context).isCategorySelected;
+    var isCategorySelected = context.select<ExpenseModel, int?>(
+        (selection) => selection.isCategorySelected);
 
     return ChoiceChip(
       padding: const EdgeInsets.all(5.0),
@@ -27,6 +27,7 @@ class CategoryListItem extends StatelessWidget {
             selected ? index : null;
         context.read<ExpenseModel>().toggleFilterByCategory(category);
       },
+      showCheckmark: false,
       label: Text(
         category.name.capitalize(),
       ),
